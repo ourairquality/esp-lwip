@@ -178,6 +178,16 @@ struct netif {
   /** the AutoIP client state information for this netif */
   struct autoip *autoip;
 #endif
+
+#ifdef ESP_RTOS
+    /*
+      Even though ESP RTOS SDK is compiled with IPV6 turned off, it
+      has LWIP_IPV6_SEND_ROUTER_SOLICIT which results in a single
+      field appearing here in the netif structure
+     */
+    u8_t rs_count;
+#endif
+
   /** maximum transfer unit (in bytes) */
   u16_t mtu;
   /** number of bytes used in hwaddr */

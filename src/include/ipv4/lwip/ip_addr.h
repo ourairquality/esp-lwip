@@ -237,7 +237,7 @@ int ipaddr_aton(const char *cp, ip_addr_t *addr);
 char *ipaddr_ntoa(const ip_addr_t *addr);
 char *ipaddr_ntoa_r(const ip_addr_t *addr, char *buf, int buflen);
 
-#ifdef LWIP_ESP
+#if defined(LWIP_ESP) && !defined(ESP_RTOS)
 struct ip_info {
     struct ip_addr ip;
     struct ip_addr netmask;

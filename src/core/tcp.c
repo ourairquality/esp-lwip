@@ -53,6 +53,10 @@
 #include "lwip/debug.h"
 #include "lwip/stats.h"
 
+#ifdef ESP_RTOS
+#include "FreeRTOS.h"
+#endif
+
 #include <string.h>
 
 #ifndef TCP_LOCAL_PORT_RANGE_START
@@ -1279,11 +1283,17 @@ tcp_alloc(u8_t prio)
 {
   struct tcp_pcb *pcb;
   u32_t iss;
+  u32_t free;
 
 #if LWIP_ESP
   int i;
   for (i = 0; i<3; i++) {
-    if (system_get_free_heap_size()<ESP_TIMEWAIT_THRESHOLD) {
+#ifdef ESP_RTOS
+      free = xPortGetFreeHeapSize();
+#else
+      free = system_get_free_heap_size();
+#endif
+    if (free<ESP_TIMEWAIT_THRESHOLD) {
       tcp_kill_timewait();
     }
   }

@@ -112,7 +112,11 @@ struct pbuf {
   u16_t ref;
 
 #ifdef EBUF_LWIP
-  /* add a pointer for esf_buf */
+  /* add a pointer for esf_buf.
+
+     lwip doesn't use this directly, but it is used by lower level esp
+     libs. The only lwip call tht uses it is to system_pp_recycle_rx_pkt,
+     when the pbuf is freed. */
   void * eb;
 #endif
 };
