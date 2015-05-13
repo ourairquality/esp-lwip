@@ -78,7 +78,7 @@
 #endif
 
 #ifdef EBUF_LWIP
-#include "pp/esf_buf.h"
+#define EP_OFFSET 36
 #else
 #define EP_OFFSET 0
 #endif /* ESF_LWIP */
