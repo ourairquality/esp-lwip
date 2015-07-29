@@ -74,10 +74,17 @@ typedef unsigned long   mem_ptr_t;
 #define PACK_STRUCT_END
 
 //#define LWIP_DEBUG
-
 #ifdef LWIP_DEBUG
+#ifndef ESP_RTOS
 #define LWIP_PLATFORM_DIAG(x) os_printf x
 #define LWIP_PLATFORM_ASSERT(x)
+#else
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat"
+#define LWIP_PLATFORM_DIAG(x) printf x
+#define LWIP_PLATFORM_ASSERT(x)
+#pragma GCC diagnostic pop
+#endif
 #else
 #define LWIP_PLATFORM_DIAG(x)
 #define LWIP_PLATFORM_ASSERT(x)
